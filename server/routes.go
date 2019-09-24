@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/aon1/slack-horoscope-bot/handlers"
-	"github.com/aon1/slack-horoscope-bot/server/wrappers"
+	"github.com/aon1/slack-horoscope/handlers"
+	"github.com/aon1/slack-horoscope/server/wrappers"
 	"net/http"
 
 	"github.com/gorilla/mux"

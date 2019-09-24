@@ -1,10 +1,10 @@
 package horoscopes
 
 import (
-	"github.com/JonathonGore/knowledge-base/errors"
-	"github.com/JonathonGore/knowledge-base/util/httputil"
-	"github.com/aon1/slack-horoscope-bot/models"
-	"github.com/aon1/slack-horoscope-bot/services"
+	"github.com/aon1/slack-horoscope/errors"
+	"github.com/aon1/slack-horoscope/helpers/http"
+	"github.com/aon1/slack-horoscope/models"
+	"github.com/aon1/slack-horoscope/services"
 	"net/http"
 	"strings"
 )
@@ -27,7 +27,7 @@ func (h *Handler) DailyHoroscope(w http.ResponseWriter, r *http.Request) {
 	result, err := h.service.GetDailyHoroscope(sunsign)
 
 	if err != nil {
-		httputil.HandleError(w, errors.BadIDError, http.StatusBadRequest)
+		helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusBadRequest)
 		return
 	}
 
@@ -43,5 +43,5 @@ func (h *Handler) DailyHoroscope(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	w.Write(httputil.JSON(response))
+	w.Write(helpers.JSON(response))
 }

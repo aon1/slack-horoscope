@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/aon1/slack-horoscope-bot/handlers/horoscopes"
-	"github.com/aon1/slack-horoscope-bot/services"
+	"github.com/aon1/slack-horoscope/handlers/horoscopes"
+	"github.com/aon1/slack-horoscope/services"
 )
 
 type Handler struct {

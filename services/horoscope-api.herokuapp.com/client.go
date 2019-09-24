@@ -2,9 +2,9 @@ package horoscope_api_herokuapp_com
 
 import (
 	"fmt"
-	"github.com/aon1/slack-horoscope-bot/config"
-"github.com/aon1/slack-horoscope-bot/models"
-"github.com/aon1/slack-horoscope-bot/services/restclient"
+	"github.com/aon1/slack-horoscope/config"
+	"github.com/aon1/slack-horoscope/models"
+	"github.com/aon1/slack-horoscope/services/restclient"
 	"strings"
 )
 
