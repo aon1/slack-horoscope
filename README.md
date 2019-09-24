@@ -14,6 +14,23 @@ This project is based on https://github.com/JonathonGore/knowledge-base
 git clone https://github.com/aon1/slack-horoscope.git
 ```
 
+Choose source API
+
+Edit file main.go and change the following lines
+```
+horoscopeService "github.com/aon1/slack-horoscope/services/babi.hefesto.io"
+``` 
+```
+service, err = horoscopeService.New(restClient, conf.HoroscopeServices.BabiHefestoIO)
+```
+or
+```
+horoscopeService "github.com/aon1/slack-horoscope/services/horoscope-api.herokuapp.com"
+```  
+```
+service, err = horoscopeService.New(restClient, conf.HoroscopeServices.HoroscopeAPIHeroku)
+```
+
 Install 
 ```
 go install
