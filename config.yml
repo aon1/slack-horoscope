@@ -1,4 +1,12 @@
 ---
 port: 3000
-apiurl: "http://horoscope-api.herokuapp.com/horoscope/"
-dailyEndpoint: "today/"
+horoscope-services:
+  horoscope-api-herokuapp-com:
+    apiurl: "http://horoscope-api.herokuapp.com/horoscope"
+    dailyEndpoint: "today"
+    weeklyEndpoint: "week"
+
+  babi-hefesto-io:
+    apiurl: "http://babi.hefesto.io/signo"
+    dailyEndpoint: "dia"
+    weeklyEndpoint: "week"

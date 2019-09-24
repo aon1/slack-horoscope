@@ -7,6 +7,8 @@ import (
 	"github.com/aon1/slack-horoscope-bot/config"
 	"github.com/aon1/slack-horoscope-bot/handlers"
 	"github.com/aon1/slack-horoscope-bot/server"
+	"github.com/aon1/slack-horoscope-bot/services"
+	horoscopeService "github.com/aon1/slack-horoscope-bot/services/babi.hefesto.io"
 	"github.com/aon1/slack-horoscope-bot/services/restclient"
 	"log"
 	"net/http"
@@ -15,6 +17,7 @@ import (
 func main() {
 	var (
 		api  handlers.API
+		service services.Services
 		restClient restclient.RestClient
 	)
 
@@ -24,7 +27,12 @@ func main() {
 		log.Fatalf("unable to parse configuration file: %v", err)
 	}
 
-	api, err = handlers.New(restClient, conf)
+	service, err = horoscopeService.New(restClient, conf.HoroscopeServices.BabiHefestoIO)
+	if err != nil {
+		log.Fatalf("unable to start horoscope service: %v", err)
+	}
+
+	api, err = handlers.New(service)
 	if err != nil {
 		log.Fatalf("unable to create handlers: %v", err)
 	}
