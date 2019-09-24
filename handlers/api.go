@@ -3,5 +3,5 @@ package handlers
 import "net/http"
 
 type API interface {
-	GetDailyHoroscope(w http.ResponseWriter, r *http.Request)
+	DailyHoroscope(w http.ResponseWriter, r *http.Request)
 }
