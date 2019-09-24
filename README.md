@@ -8,13 +8,13 @@ This app can consume data from
 
 This project is based on https://github.com/JonathonGore/knowledge-base
 
-**Setup**
+## Setup
 
 ```
 git clone https://github.com/aon1/slack-horoscope.git
 ```
 
-Choose source API
+**Choose source API**
 
 Edit file main.go and change the following lines
 ```
@@ -31,24 +31,24 @@ horoscopeService "github.com/aon1/slack-horoscope/services/horoscope-api.herokua
 service, err = horoscopeService.New(restClient, conf.HoroscopeServices.HoroscopeAPIHeroku)
 ```
 
-Install 
+**Install** 
 ```
 go install
 ```
 
-Run
+**Run**
 ```
 go run main.go
 ```
 
 App is running on http://localhost:3000/daily
 
-**Usage**
+## Usage
 ```
 curl -d "text=libra" -X POST http://localhost:3000/daily
 ```
 
-Available sun signs for https://github.com/andrechavesg/babi-api-horoscopo
+**Available sun signs for https://github.com/andrechavesg/babi-api-horoscopo**
 ```
 aquario
 peixes
@@ -64,7 +64,7 @@ sagitario
 capricornio
 ```
 
-Available sun signs for https://github.com/tapaswenipathak/Horoscope-API
+**Available sun signs for https://github.com/tapaswenipathak/Horoscope-API**
 ```
 aries 
 taurus
@@ -80,13 +80,13 @@ aquarius
 pisces
 ```
 
-Slack config
+## Slack config
 
 - Go to https://api.slack.com/apps and create a new app
 - Choose Slash command
 - Create a command that will be issued on chat
 - Fill in the address of the app on Request URL field
 
-**TODO**
+## TODO
 
 Endpoint to retrieve weekly horoscope
