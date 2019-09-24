@@ -16,7 +16,7 @@ type Server struct {
 func New(api handlers.API) (*Server, error) {
 	s := &Server{Router: mux.NewRouter()}
 
-	s.Router.HandleFunc("/daily/{sunsign}", api.GetDailyHoroscope).Methods(http.MethodGet)
+	s.Router.HandleFunc("/daily/{sunsign}", api.GetDailyHoroscope).Methods(http.MethodPost)
 
 	s.Router.Use(wrappers.Log)
 	s.Router.Use(wrappers.JSONResponse) // All of our routes should return JSON
