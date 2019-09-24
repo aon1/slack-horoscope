@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/aon1/slack-horoscope-bot/config"
 	"github.com/aon1/slack-horoscope-bot/services/restclient"
-	"github.com/gorilla/mux"
 	"net/http"
 )
 
@@ -23,7 +22,8 @@ func New(restClient restclient.RestClient, conf config.Config) (*Handler, error)
 }
 
 func (h *Handler) GetDailyHoroscope(w http.ResponseWriter, r *http.Request) {
-	sunsign := mux.Vars(r)["sunsign"]
+	r.ParseForm()
+	sunsign := r.FormValue("text")
 	url := h.conf.ApiURL + h.conf.DailyEndpoint + sunsign
 	result := h.restClient.Get(url, nil)
 
