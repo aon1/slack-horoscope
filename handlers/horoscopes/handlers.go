@@ -5,6 +5,7 @@ import (
 	"github.com/aon1/slack-horoscope-bot/config"
 	"github.com/aon1/slack-horoscope-bot/services/restclient"
 	"net/http"
+	"strings"
 )
 
 type Handler struct {
@@ -37,13 +38,17 @@ func (h *Handler) DailyHoroscope(w http.ResponseWriter, r *http.Request) {
 	url := h.conf.ApiURL + h.conf.DailyEndpoint + sunsign
 	result := h.restClient.Get(url, nil)
 
+	text := strings.Title(result["sunsign"])
+
 	response := Response{
-		ResponseType: "ephemeral",
-		Text: result["horoscope"],
-		Attachments: []ResponseAttachment{},
+		ResponseType: "in_channel",
+		Text: text,
+		Attachments: []ResponseAttachment{
+			{
+				Text:result["horoscope"],
+			},
+		},
 	}
 
 	w.Write(httputil.JSON(response))
-
-	//w.Write([]byte(result["horoscope"]))
 }
