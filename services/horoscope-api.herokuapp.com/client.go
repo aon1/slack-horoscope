@@ -5,6 +5,7 @@ import (
 	"github.com/aon1/slack-horoscope-bot/config"
 "github.com/aon1/slack-horoscope-bot/models"
 "github.com/aon1/slack-horoscope-bot/services/restclient"
+	"strings"
 )
 
 type restClient struct {
@@ -25,7 +26,7 @@ func (r *restClient) GetDailyHoroscope(sunsign string) (models.HoroscopeDaily, e
 
 	horoscope := models.HoroscopeDaily{
 		Horoscope: mapResult["horoscope"],
-		Sunsign:   mapResult["sunsign"],
+		Sunsign:   strings.Title(mapResult["sunsign"]),
 		Date:      mapResult["date"],
 	}
 

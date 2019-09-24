@@ -26,7 +26,7 @@ func (r *restClient) GetDailyHoroscope(sunsign string) (models.HoroscopeDaily, e
 
 	horoscope := models.HoroscopeDaily{
 		Horoscope: strings.TrimSpace(mapResult["texto"]),
-		Sunsign:   mapResult["signo"],
+		Sunsign:   strings.Title(mapResult["signo"]),
 	}
 
 	return horoscope, nil
