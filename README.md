@@ -41,11 +41,14 @@ go install
 go run main.go
 ```
 
-App is running on http://localhost:3000/daily
+App is running on http://localhost:3000
 
 ## Usage
 ```
-curl -d "text=libra" -X POST http://localhost:3000/daily
+curl -d "text=libra today" -X POST http://localhost:3000
+```
+```
+curl -d "text=libra week" -X POST http://localhost:3000
 ```
 
 **Available sun signs for https://github.com/andrechavesg/babi-api-horoscopo**
