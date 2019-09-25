@@ -12,11 +12,10 @@ type Server struct {
 	Router *mux.Router
 }
 
-// New creates a new server with routes from the provided api.
 func New(api handlers.API) (*Server, error) {
 	s := &Server{Router: mux.NewRouter()}
 
-	s.Router.HandleFunc("/daily", api.DailyHoroscope).Methods(http.MethodPost)
+	s.Router.HandleFunc("/", api.GetHoroscope).Methods(http.MethodPost)
 
 	s.Router.Use(wrappers.Log)
 	s.Router.Use(wrappers.JSONResponse) // All of our routes should return JSON

@@ -20,27 +20,25 @@ func New(client restclient.RestClient, conf config.HoroscopeService) (*restClien
 	}, nil
 }
 
-func (r *restClient) GetDailyHoroscope(sunsign string) (models.HoroscopeDaily, error) {
+func (r *restClient) GetDailyHoroscope(sunsign string) (models.Horoscope, error) {
 	url := fmt.Sprintf("%s/%s/%s", r.conf.ApiURL, r.conf.DailyEndpoint, sunsign)
 	mapResult := r.client.Get(url, nil)
 
-	horoscope := models.HoroscopeDaily{
+	horoscope := models.Horoscope{
 		Horoscope: mapResult["horoscope"],
 		Sunsign:   strings.Title(mapResult["sunsign"]),
-		Date:      mapResult["date"],
 	}
 
 	return horoscope, nil
 }
 
-func (r *restClient) GetWeeklyHoroscope(sunsign string) (models.HoroscopeWeek, error) {
-	url := r.conf.ApiURL + r.conf.WeeklyEndpoint + sunsign
+func (r *restClient) GetWeeklyHoroscope(sunsign string) (models.Horoscope, error) {
+	url := fmt.Sprintf("%s/%s/%s", r.conf.ApiURL, r.conf.WeeklyEndpoint, sunsign)
 	mapResult := r.client.Get(url, nil)
 
-	horoscope := models.HoroscopeWeek{
+	horoscope := models.Horoscope{
 		Horoscope: mapResult["horoscope"],
 		Sunsign:   mapResult["sunsign"],
-		Week:      mapResult["date"],
 	}
 
 	return horoscope, nil

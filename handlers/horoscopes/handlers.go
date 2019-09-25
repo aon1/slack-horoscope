@@ -21,10 +21,32 @@ func New(service services.Services) (*Handler, error) {
 	return handler, nil
 }
 
-func (h *Handler) DailyHoroscope(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	sunsign := r.FormValue("text")
-	result, err := h.service.GetDailyHoroscope(sunsign)
+func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
+	_ = r.ParseForm()
+
+	params := strings.Split(r.FormValue("text"), " ")
+
+	if len(params) != 2 {
+		helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusBadRequest)
+		return
+	}
+
+	sunsign := params[0]
+	period := params[1]
+
+	var (
+		err error
+		result models.Horoscope
+	)
+
+	if period == "today" {
+		result, err = h.service.GetDailyHoroscope(sunsign)
+	} else if period == "week" {
+		result, err = h.service.GetWeeklyHoroscope(sunsign)
+	} else {
+		helpers.HandleError(w, errors.InvalidPathParamError, http.StatusBadRequest)
+		return
+	}
 
 	if err != nil {
 		helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusBadRequest)

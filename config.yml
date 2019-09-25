@@ -9,4 +9,4 @@ horoscope-services:
   babi-hefesto-io:
     apiurl: "http://babi.hefesto.io/signo"
     dailyEndpoint: "dia"
-    weeklyEndpoint: "week"
+    weeklyEndpoint: "semana"

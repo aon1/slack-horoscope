@@ -20,11 +20,11 @@ func New(client restclient.RestClient, conf config.HoroscopeService) (*restClien
 	}, nil
 }
 
-func (r *restClient) GetDailyHoroscope(sunsign string) (models.HoroscopeDaily, error) {
+func (r *restClient) GetDailyHoroscope(sunsign string) (models.Horoscope, error) {
 	url := fmt.Sprintf("%s/%s/%s", r.conf.ApiURL, sunsign, r.conf.DailyEndpoint)
 	mapResult := r.client.Get(url, nil)
 
-	horoscope := models.HoroscopeDaily{
+	horoscope := models.Horoscope{
 		Horoscope: strings.TrimSpace(mapResult["texto"]),
 		Sunsign:   strings.Title(mapResult["signo"]),
 	}
@@ -32,14 +32,14 @@ func (r *restClient) GetDailyHoroscope(sunsign string) (models.HoroscopeDaily, e
 	return horoscope, nil
 }
 
-func (r *restClient) GetWeeklyHoroscope(sunsign string) (models.HoroscopeWeek, error) {
-	url := r.conf.ApiURL + r.conf.WeeklyEndpoint + sunsign
+func (r *restClient) GetWeeklyHoroscope(sunsign string) (models.Horoscope, error) {
+	url := fmt.Sprintf("%s/%s/%s", r.conf.ApiURL, sunsign, r.conf.WeeklyEndpoint)
+	fmt.Println(url)
 	mapResult := r.client.Get(url, nil)
 
-	horoscope := models.HoroscopeWeek{
-		Horoscope: mapResult["horoscope"],
-		Sunsign:   mapResult["sunsign"],
-		Week:      mapResult["date"],
+	horoscope := models.Horoscope{
+		Horoscope: strings.TrimSpace(mapResult["texto"]),
+		Sunsign:   strings.Title(mapResult["signo"]),
 	}
 
 	return horoscope, nil
