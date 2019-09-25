@@ -34,7 +34,6 @@ func (r *restClient) GetDailyHoroscope(sunsign string) (models.Horoscope, error)
 
 func (r *restClient) GetWeeklyHoroscope(sunsign string) (models.Horoscope, error) {
 	url := fmt.Sprintf("%s/%s/%s", r.conf.ApiURL, sunsign, r.conf.WeeklyEndpoint)
-	fmt.Println(url)
 	mapResult := r.client.Get(url, nil)
 
 	horoscope := models.Horoscope{

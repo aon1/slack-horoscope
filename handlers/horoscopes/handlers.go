@@ -26,8 +26,17 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 
 	params := strings.Split(r.FormValue("text"), " ")
 
+	var response models.SlackResponse
+
 	if len(params) != 2 {
-		helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusBadRequest)
+		response := models.SlackResponse{
+			ResponseType: "ephemeral",
+			Text: "Oops! you didn't provide enough parameters. Usage: /horoscopo [signo] [today|week]",
+			Attachments: []models.SlackResponseAttachment{},
+		}
+
+		w.Write(helpers.JSON(response))
+
 		return
 	}
 
@@ -39,13 +48,23 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 		result models.Horoscope
 	)
 
+	err = models.Validate(sunsign, period)
+	if err != nil {
+		response = models.SlackResponse{
+			ResponseType: "ephemeral",
+			Text: err.Error(),
+			Attachments: []models.SlackResponseAttachment{},
+		}
+
+		w.Write(helpers.JSON(response))
+
+		return
+	}
+
 	if period == "today" {
 		result, err = h.service.GetDailyHoroscope(sunsign)
 	} else if period == "week" {
 		result, err = h.service.GetWeeklyHoroscope(sunsign)
-	} else {
-		helpers.HandleError(w, errors.InvalidPathParamError, http.StatusBadRequest)
-		return
 	}
 
 	if err != nil {
@@ -55,7 +74,7 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 
 	text := strings.Title(result.Horoscope)
 
-	response := models.SlackResponse{
+	response = models.SlackResponse{
 		ResponseType: "in_channel",
 		Text: result.Sunsign,
 		Attachments: []models.SlackResponseAttachment{
