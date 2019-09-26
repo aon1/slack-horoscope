@@ -68,9 +68,8 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("Sending 200")
 	//we should tell slack asap that we received the request to avoid timeout error
-	w.Write(helpers.JSON(helpers.IDResponse{ID:200}))
+	w.WriteHeader(http.StatusOK)
 
 	now := time.Now().Format("2006-01-02")
 	redisKey := fmt.Sprintf("%s:%s:%s", sunsign, period, now)
