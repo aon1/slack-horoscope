@@ -17,8 +17,14 @@ type HoroscopeServices struct {
 	BabiHefestoIO HoroscopeService `yaml:"babi-hefesto-io"`
 }
 
+type Redis struct {
+	Host string `yaml:"host"`
+	Port int `yaml:"port"`
+}
+
 type Config struct {
 	Port                 int      `yaml:"port"`
+	Redis 			 	 Redis `yaml:"redis"`
 	HoroscopeServices	 HoroscopeServices `yaml:"horoscope-services"`
 }
 
