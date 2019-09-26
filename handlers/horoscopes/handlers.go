@@ -8,6 +8,7 @@ import (
 	"github.com/aon1/slack-horoscope/models"
 	"github.com/aon1/slack-horoscope/services"
 	"github.com/aon1/slack-horoscope/services/redis"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -78,6 +79,7 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 
 	//cache miss
 	if len(val) == 0 {
+		log.Println("cache miss")
 		if period == "today" {
 			result, err = h.service.GetDailyHoroscope(sunsign)
 		} else if period == "week" {
@@ -96,6 +98,7 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err.Error())
 		}
 	} else {
+		log.Println("cache hit")
 		err = json.Unmarshal([]byte(val), &result)
 	}
 
