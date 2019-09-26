@@ -61,6 +61,9 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//we should tell slack asap that we received the request to avoid timeout error
+	w.WriteHeader(http.StatusOK)
+
 	if period == "today" {
 		result, err = h.service.GetDailyHoroscope(sunsign)
 	} else if period == "week" {
