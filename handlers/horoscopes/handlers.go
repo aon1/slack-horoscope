@@ -1,21 +1,28 @@
 package horoscopes
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/aon1/slack-horoscope/errors"
 	"github.com/aon1/slack-horoscope/helpers/http"
 	"github.com/aon1/slack-horoscope/models"
 	"github.com/aon1/slack-horoscope/services"
+	"github.com/aon1/slack-horoscope/services/redis"
+	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type Handler struct {
 	service services.Services
+	redis *redis.Redis
 }
 
-func New(service services.Services) (*Handler, error) {
+func New(service services.Services, redis *redis.Redis) (*Handler, error) {
 	handler := &Handler{
 		service: service,
+		redis: redis,
 	}
 
 	return handler, nil
@@ -61,15 +68,38 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if period == "today" {
-		result, err = h.service.GetDailyHoroscope(sunsign)
-	} else if period == "week" {
-		result, err = h.service.GetWeeklyHoroscope(sunsign)
-	}
+	now := time.Now().Format("2006-01-02")
+	redisKey := fmt.Sprintf("%s:%s:%s", sunsign, period, now)
+	val, err := h.redis.Get(redisKey)
 
 	if err != nil {
-		helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusBadRequest)
+		helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusInternalServerError)
 		return
+	}
+
+	//cache miss
+	if len(val) == 0 {
+		log.Println("cache miss")
+		if period == "today" {
+			result, err = h.service.GetDailyHoroscope(sunsign)
+		} else if period == "week" {
+			result, err = h.service.GetWeeklyHoroscope(sunsign)
+		}
+
+		if err != nil {
+			helpers.HandleError(w, errors.ResourceNotFoundError, http.StatusBadRequest)
+			return
+		}
+
+		serialized, _ := json.Marshal(&result)
+		key := fmt.Sprintf("%s:%s:%s", sunsign, period, now)
+		_, err = h.redis.Set(key, string(serialized))
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	} else {
+		log.Println("cache hit")
+		err = json.Unmarshal([]byte(val), &result)
 	}
 
 	text := strings.Title(result.Horoscope)

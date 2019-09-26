@@ -9,6 +9,7 @@ import (
 	"github.com/aon1/slack-horoscope/server"
 	"github.com/aon1/slack-horoscope/services"
 	horoscopeService "github.com/aon1/slack-horoscope/services/babi.hefesto.io"
+	"github.com/aon1/slack-horoscope/services/redis"
 	"github.com/aon1/slack-horoscope/services/restclient"
 	"log"
 	"net/http"
@@ -32,7 +33,12 @@ func main() {
 		log.Fatalf("unable to start horoscope service: %v", err)
 	}
 
-	api, err = handlers.New(service)
+	redis, err := redis.New(conf)
+	if err != nil {
+		log.Fatalf("unable to start redis service: %v", err)
+	}
+
+	api, err = handlers.New(service, redis)
 	if err != nil {
 		log.Fatalf("unable to create handlers: %v", err)
 	}

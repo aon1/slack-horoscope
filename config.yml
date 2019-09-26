@@ -10,3 +10,6 @@ horoscope-services:
     apiurl: "http://babi.hefesto.io/signo"
     dailyEndpoint: "dia"
     weeklyEndpoint: "semana"
+redis:
+  host: "192.168.1.122"
+  port: 6379
