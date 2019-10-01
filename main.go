@@ -33,10 +33,12 @@ func main() {
 		log.Fatalf("unable to start horoscope service: %v", err)
 	}
 
-	redis, err := redis.New(conf)
-	if err != nil {
-		log.Fatalf("unable to start redis service: %v", err)
-	}
+	//redis, err := redis.New(conf)
+	//if err != nil {
+	//	log.Fatalf("unable to start redis service: %v", err)
+	//}
+
+	redis := &redis.Redis{}
 
 	api, err = handlers.New(service, redis)
 	if err != nil {
