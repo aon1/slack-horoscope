@@ -105,14 +105,12 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 		err = json.Unmarshal([]byte(val), &result)
 	}
 
-	text := strings.Title(result.Horoscope)
-
 	response = models.SlackResponse{
 		ResponseType: "in_channel",
 		Text: result.Sunsign,
 		Attachments: []models.SlackResponseAttachment{
 			{
-				Text: text,
+				Text: result.Horoscope,
 			},
 		},
 	}
