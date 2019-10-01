@@ -12,6 +12,7 @@ import (
 	"github.com/aon1/slack-horoscope/services/restclient"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -48,6 +49,7 @@ func main() {
 		TLSConfig: &tls.Config{},
 	}
 
-	log.Printf("Starting server over http on port: %v", conf.Port)
+	port := map[bool]string{true: os.Getenv("PORT"), false: "3000"}[ os.Getenv("PORT") != ""]
+	log.Printf("Starting server over http on port: %v", port)
 	log.Fatal(srv.ListenAndServe())
 }
