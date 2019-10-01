@@ -40,3 +40,7 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[metadata.heroku]
+  root-package = "github.com/aon1/slack-horoscope"
+  go-version = "1.13"
