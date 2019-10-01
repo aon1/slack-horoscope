@@ -43,13 +43,14 @@ func main() {
 		log.Fatalf("error initializing server: %v", err)
 	}
 
+	port := map[bool]string{true: os.Getenv("PORT"), false: "3000"}[ os.Getenv("PORT") != ""]
+
 	srv := &http.Server{
-		Addr:      fmt.Sprintf(":%v", conf.Port),
+		Addr:      fmt.Sprintf(":%v", port),
 		Handler:   s,
 		TLSConfig: &tls.Config{},
 	}
 
-	port := map[bool]string{true: os.Getenv("PORT"), false: "3000"}[ os.Getenv("PORT") != ""]
 	log.Printf("Starting server over http on port: %v", port)
 	log.Fatal(srv.ListenAndServe())
 }
