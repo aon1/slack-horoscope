@@ -5,6 +5,7 @@ import (
 	"github.com/aon1/slack-horoscope/helpers/http"
 	"github.com/aon1/slack-horoscope/models"
 	"github.com/aon1/slack-horoscope/services"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -25,6 +26,8 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 	_ = r.ParseForm()
 
 	params := strings.Split(r.FormValue("text"), " ")
+
+	log.Printf("Got params %s", params)
 
 	var response models.SlackResponse
 
@@ -74,6 +77,8 @@ func (h *Handler) GetHoroscope(w http.ResponseWriter, r *http.Request) {
 	} else if period == "week" {
 		result, err = h.service.GetWeeklyHoroscope(sunsign)
 	}
+
+	log.Printf("Response %v", result)
 
 	response = models.SlackResponse{
 		ResponseType: "in_channel",
